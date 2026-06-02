@@ -43,8 +43,26 @@ separately on-prem or leveraged as managed services.
 Assuming kubectl context points to the correct kubernetes cluster, first create kubernetes secrets that contain MySQL and Neo4j passwords. 
 
 ```(shell)
-kubectl create secret generic mysql-secrets --from-literal=mysql-root-password=datahub --from-literal=mysql-password=datahub
-kubectl create secret generic neo4j-secrets --from-literal=neo4j-password=datahub --from-literal=NEO4J_AUTH=neo4j/datahub
+kubectl -n datahub create secret docker-registry dockerhub \
+  --docker-server=https://index.docker.io/v1/ \
+  --docker-username="$DOCKERHUB_USERNAME" \
+  --docker-password="$DOCKERHUB_TOKEN" \
+  --docker-email="$DOCKERHUB_EMAIL"
+  
+kubectl create secret generic mysql-secrets 
+    -n datahub
+    --from-literal=mysql-root-password=datahub 
+    --from-literal=mysql-password=datahub
+    
+kubectl create secret generic postgresql-secrets \
+    --from-literal=postgres-password=datahub \
+    --from-literal=password=datahub \
+    --from-literal=replication-password=datahub
+    
+kubectl create secret generic neo4j-secrets 
+    -n datahub
+    --from-literal=neo4j-password=datahub 
+    --from-literal=NEO4J_AUTH=neo4j/datahub
 ```
 
 The above commands sets the passwords to "datahub" as an example. Change to any password of choice. 
@@ -61,14 +79,14 @@ Then, deploy the dependencies by running the following
 helm install prerequisites datahub/datahub-prerequisites
 ```
 
-Note, the above uses the default configuration defined [here](https://github.com/acryldata/datahub-helm/blob/master/charts/prerequisites/values.yaml). You can change any of the configuration and deploy by running the following command. 
+Note, the above uses the default configuration defined [here](https://github.com/acryldata/datahub-helm/blob/master/charts/prerequisites/values.yaml). You can change any of the configurations and deploy by running the following command. 
 
 ```(shell)
 helm install prerequisites datahub/datahub-prerequisites --values <<path-to-values-file>>
 ```
 
 Run `kubectl get pods` to check whether all the pods for the dependencies are running. 
-You should get a result similar to below.
+You should get a result similar to the below.
 
 ```
 NAME                                               READY   STATUS      RESTARTS   AGE
@@ -88,7 +106,7 @@ helm install datahub datahub/datahub
 
 Values in [values.yaml](https://github.com/acryldata/datahub-helm/blob/master/charts/datahub/values.yaml) 
 have been preset to point to the dependencies deployed using the [prerequisites](https://github.com/acryldata/datahub-helm/tree/master/charts/prerequisites) 
-chart with release name "prerequisites". If you deployed the helm chart using a different release name, update the quickstart-values.yaml file accordingly before installing. 
+chart with the release name "prerequisites". If you deployed the helm chart using a different release name, update the quickstart-values.yaml file accordingly before installing. 
 
 Run `kubectl get pods` to check whether all the datahub pods are running. You should get a result similar to below.
 

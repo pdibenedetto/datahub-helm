@@ -2,7 +2,7 @@
 # Copy this file and update to the configuration of choice
 elasticsearch:
   # set this to false when using OpenSearch instead
-  enabled: false
+  enabled: true
 
   # If you're running in production, set this to 3 and comment out antiAffinity below
   # Or alternatively if you're running production, bring your own ElasticSearch
@@ -36,7 +36,7 @@ elasticsearch:
   #       storage: 100M
 
 opensearch:
-  enabled: true
+  enabled: false
 
   # If you're running in production, set this to false, replicas to 3 and uncomment antiAffinity below
   # Or alternatively if you're running production, bring your own OpenSearch
@@ -76,7 +76,7 @@ opensearch:
   #     - ReadWriteOnce
   #   size: 100M
 
-# Official neo4j chart, supports both community and enterprise editions
+# Official neo4j chart supports both community and enterprise editions
 # see https://neo4j.com/docs/operations-manual/current/kubernetes/ for more information
 # source: https://github.com/neo4j/helm-charts
 neo4j:
@@ -116,7 +116,7 @@ neo4j:
     NEO4J_PLUGINS: '["apoc"]'
 
 mysql:
-  enabled: true
+  enabled: false
   image:
     repository: bitnamilegacy/mysql
     # 8.0.40 is the latest 8.0.x in bitnamilegacy; 8.0.32 was previous. Debian 12 base.
@@ -136,10 +136,16 @@ mysql:
         cpu: "1000m"
 
 postgresql:
-  enabled: false
+  enabled: true
+  image:
+    registry: docker.io
+    repository: bitnami/postgresql
+    tag: latest
+#    tag: sha256-7651d7f24aad83fe68a222f7f20eded10d325c96ebee285ca5bf8162eddcba64
   auth:
     # For better security, add postgresql-secrets k8s secret with postgres-password, replication-password and password
     existingSecret: postgresql-secrets
+    database: datahub
 
 # Using gcloud-proxy requires the node in a GKE cluster to have Cloud SQL Admin scope,
 # you will need to create a new node and migrate the workload if your current node does not have this scope

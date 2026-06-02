@@ -633,7 +633,7 @@ global:
   # Base path configuration for serving DataHub behind a proxy
   # When enabled, DataHub services will be accessible under the specified base paths
   # This allows hosting DataHub under a subpath like /datahub instead of root /
-  # When using the INTERNAL schema registry this will also set the basePath path for clients.
+  # When using the INTERNAL schema registry, this will also set the basePath path for clients.
   basePath:
     # Enable basepath support
     enabled: false
@@ -655,7 +655,7 @@ global:
     enabled: false
     # Partitioning key specification (table:column format)
     urnKeySpec: "datahub.metadata_aspect_v2:urn"
-    # Auto-configure Debezium connector (recommended false for production)
+    # Autoconfigure Debezium connector (recommended false for production)
     configureSource: false
     # Database configuration for CDC
     database:
@@ -692,9 +692,9 @@ global:
       # pluginName: "decoderbufs"
 
   elasticsearch:
-    # Default matches prerequisites chart with OpenSearch enabled (opensearch-cluster-master).
+    # Default matches the prerequisite chart with OpenSearch enabled (opensearch-cluster-master).
     # Use host: "elasticsearch-master" when using prerequisites with Elasticsearch enabled instead.
-    host: "opensearch-cluster-master"
+    host: "elasticsearch-master"
     port: "9200"
     # ES client thread count is per workload: set <subchart>.elasticsearch.threadCount (e.g. datahub-gms,
     # datahub-mae-consumer, datahub-mce-consumer) or datahubSystemUpdate.elasticsearch.threadCount for upgrade jobs.
@@ -704,8 +704,8 @@ global:
     useSSL: "false"
 
     # Auto-detection is supported if you have cluster permissions for getting current cluster info, may cause issues on restrictive deployed managed services
-    engineType: "AUTO_DETECT"
-    autoDetect: "true"
+    engineType: "ELASTICSEARCH_7"
+    autoDetect: "false"
 
     # AWS IAM authentication for OpenSearch
     # When enabled, DataHub will use AWS IAM credentials instead of username/password
@@ -717,7 +717,7 @@ global:
     region: ""
 
     # Elasticsearch/OpenSearch implementation configuration
-    # implementation: "opensearch"  # Sets ELASTICSEARCH_IMPLEMENTATION - "elasticsearch" or "opensearch"
+    # implementation: "elasticsearch" # Sets ELASTICSEARCH_IMPLEMENTATION - "elasticsearch" or "opensearch"
 
     # Authentication
     # auth:
@@ -728,7 +728,7 @@ global:
         # or
         # secretRef: <secret-ref>
         # secretKey: <secret-key>
-    # If you want to specify index prefixes use indexPrefix
+    # If you want to specify index prefixes, use indexPrefix
     # indexPrefix: "dh"
 
     ## The following section controls when and how reindexing of elasticsearch indices are performed
@@ -738,7 +738,7 @@ global:
 
       ## Enable reindexing when static index settings change.
       ## Dynamic settings which do not require reindexing are not affected
-      ## Primarily this should be enabled when re-sharding is necessary for scaling/performance.
+      ##  Primarily, this should be enabled when re-sharding is necessary for scaling/performance.
       enableSettingsReindex: true
 
       ## Index settings can be overridden for entity indices or other indices on an index by index basis
@@ -768,7 +768,7 @@ global:
         ## The clone indices are not currently managed.
         cloneIndices: true
 
-        ## Typically when reindexing the document counts between the original and destination indices should match.
+        ## Typically, when reindexing the document counts between the original and destination indices should match.
         ## In some cases reindexing might not be able to proceed due to incompatibilities between a document in the
         ## orignal index and the new index's mappings. This document could be dropped and re-ingested or restored from
         ## the SQL database.
@@ -783,7 +783,7 @@ global:
 
         ## Individual override for ELASTICSEARCH_BUILD_INDICES_ROLLBACK_DUAL_WRITE_ENABLED.
         ## When set explicitly, overrides the ZDU_STAGE_20 group flag cascade.
-        ## Dual-writes to old backing index during incremental reindex for rollback safety.
+        ## Dual-writes to the old backing index during incremental reindex for rollback safety.
         ## Defaults to ZDU_STAGE_20 value if not set here.
         # rollbackDualWriteEnabled: false
 
@@ -992,20 +992,31 @@ global:
 
   sql:
     datasource:
-      host: "prerequisites-mysql:3306"
-      hostForMysqlClient: "prerequisites-mysql"
-      port: "3306"
-      url: "jdbc:mysql://prerequisites-mysql:3306/datahub?verifyServerCertificate=false&useSSL=true&useUnicode=yes&characterEncoding=UTF-8&enabledTLSProtocols=TLSv1.2"
-      driver: "com.mysql.cj.jdbc.Driver"
-      database: "datahub"
-      username: "root"
-      password:
-        secretRef: mysql-secrets
-        secretKey: mysql-root-password
+#      host: "prerequisites-mysql:3306"
+#      hostForMysqlClient: "prerequisites-mysql"
+#      port: "3306"
+#      url: "jdbc:mysql://prerequisites-mysql:3306/datahub?verifyServerCertificate=false&useSSL=true&useUnicode=yes&characterEncoding=UTF-8&enabledTLSProtocols=TLSv1.2"
+#      driver: "com.mysql.cj.jdbc.Driver"
+#      database: "datahub"
+#      username: "root"
+#      password:
+#        secretRef: mysql-secrets
+#        secretKey: mysql-root-password
       # --------------OR----------------
       # value: password
 
       ## Use below for usage of PostgreSQL instead of MySQL
+      host: "prerequisites-postgresql:5432"
+      hostForMysqlClient: "unused"
+      hostForpostgresqlClient: "prerequisites-postgresql"
+      port: "5432"
+      url: "jdbc:postgresql://prerequisites-postgresql:5432/datahub"
+      driver: "org.postgresql.Driver"
+      database: "datahub"
+      username: "postgres"
+      password:
+        secretRef: postgresql-secrets
+        secretKey: postgres-password
       # host: "prerequisites-postgresql:5432"
       # hostForpostgresqlClient: "prerequisites-postgresql"
       # port: "5432"
@@ -1047,7 +1058,7 @@ global:
       awsRegion: ""  # AWS region for RDS/Aurora IAM authentication
 
   datahub:
-    version: v1.6.0
+    version: v1.5.0
     # Consolidated ServiceAccount for application Deployments/Jobs/CronJobs (not system-update operator).
     # Override per subchart via <subchart>.serviceAccount.name / .create.
     appServiceAccount:
@@ -1073,11 +1084,11 @@ global:
       # monitoringApiVersion: "azmonitoring.coreos.com/v1"
       # Prometheus scrape layout for JMX workloads (GMS, frontend, MAE/MCE consumers).
       # - legacy: JMX on jmxPort; GMS Spring actuator on main http service port only.
-      # - jmx_and_actuator: JMX with explicit metricsPath on jmxPort; /actuator/prometheus on actuatorPrometheusPort (default; matches v1.6.0 Docker).
+      # - jmx_and_actuator: JMX with explicit metricsPath on jmxPort; /actuator/prometheus on actuatorPrometheusPort.
       # - actuator_only: no JMX; /actuator/prometheus only on actuatorPrometheusPort where the app exposes it.
       # When jmx_and_actuator or actuator_only: MAE/MCE consumers probe /actuator/health on the
       # prometheus Service/container port (actuatorPrometheusPort); allow that port if you use NetworkPolicy.
-      metricsMode: jmx_and_actuator
+      metricsMode: legacy
       jmxPort: 4318
       # Dedicated listener for Spring /actuator/prometheus (non-legacy modes). Independent of jmxPort so JMX can be removed later.
       actuatorPrometheusPort: 4319
@@ -1088,7 +1099,7 @@ global:
       port: "9091"
       nodePort: "30002"
 
-    appVersion: "1.6.0"
+    appVersion: "1.5.0"
     systemUpdate:
       ## The following options control settings for datahub-upgrade job which will
       ## managed ES indices and other update related work
@@ -1130,7 +1141,7 @@ global:
     managed_ingestion:
       enabled: true
       # PyPI acryl-datahub version (PEP 440); do not use a leading "v" (unlike global.datahub.version tags).
-      defaultCliVersion: "1.6.0"
+      defaultCliVersion: "1.5.0"
 
     metadata_service_authentication:
       enabled: true
