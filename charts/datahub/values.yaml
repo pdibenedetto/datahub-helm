@@ -4,8 +4,8 @@
 datahub-gms:
   enabled: true
   image:
-    repository: acryldata/datahub-gms
-    # tag: "v0.11.0 # defaults to .global.datahub.version
+    repository: opensource/datahub/datahub-gms
+    tag: "1.5.0-oss"
     # Add custom command / arguments to this job.  Useful if you need a custom startup or shutdown script
     # to run
     # command: customCommand
@@ -67,8 +67,8 @@ datahub-frontend:
     targetCPUUtilizationPercentage: 70
     targetMemoryUtilizationPercentage: 70
   image:
-    repository: acryldata/datahub-frontend-react
-    # tag: "v0.11.0" # # defaults to .global.datahub.version
+    repository: opensource/datahub/datahub-frontend-react
+    tag: "1.5.0-oss"
     # Add custom command / arguments to this job.  Useful if you need a custom startup or shutdown script
     # to run
     # command: customCommand
@@ -110,8 +110,8 @@ datahub-frontend:
 acryl-datahub-actions:
   enabled: true
   image:
-    repository: acryldata/datahub-actions
-    # tag: "v1.2.0" # # defaults to .global.datahub.version
+    repository: opensource/datahub/datahub-actions
+    tag: "1.5.0-oss"
     # Add custom command / arguments to this job.  Useful if you need a custom startup or shutdown script
     # to run
     # command: customCommand
@@ -131,8 +131,8 @@ acryl-datahub-actions:
 
 datahub-mae-consumer:
   image:
-    repository: acryldata/datahub-mae-consumer
-    # tag: "v0.11.0" # defaults to .global.datahub.version
+    repository: opensource/datahub/datahub-mae-consumer
+    tag: "1.5.0-oss"
     # Add custom command / arguments to this job.  Useful if you need a custom startup or shutdown script
     # to run
     # command: customCommand
@@ -150,8 +150,8 @@ datahub-mce-consumer:
   serviceAccount:
     create: false
   image:
-    repository: acryldata/datahub-mce-consumer
-    # tag: "v0.11.0" # defaults to .global.datahub.version
+    repository: opensource/datahub/datahub-mce-consumer
+    tag: "1.5.0-oss"
     # Add custom command / arguments to this job.  Useful if you need a custom startup or shutdown script
     # to run
     # command: customCommand
@@ -166,14 +166,14 @@ datahub-mce-consumer:
 datahub-ingestion-cron:
   enabled: false
   image:
-    repository: acryldata/datahub-ingestion
-    # tag: "v0.11.0" # defaults to .global.datahub.version
+    repository: opensource/datahub/datahub-ingestion
+    tag: "1.5.0-oss"
 
 elasticsearchSetupJob:
   enabled: false
   image:
-    repository: acryldata/datahub-elasticsearch-setup
-    # tag: "v0.11.0" # defaults to .global.datahub.version
+    repository: opensource/datahub/datahub-elasticsearch-setup
+    tag: "1.5.0-oss"
     # Add custom command / arguments to this job.  Useful if you need a custom startup or shutdown script
     # to run
     # command: customCommand
@@ -215,9 +215,8 @@ elasticsearchSetupJob:
 kafkaSetupJob:
   enabled: false
   image:
-    repository: acryldata/datahub-kafka-setup
-    tag: v1.2.0.1
-    # tag: "v0.11.0" # defaults to .global.datahub.version
+    repository: opensource/datahub/datahub-kafka-setup
+    tag: "1.5.0-oss"
     # Add custom command / arguments to this job.  Useful if you need a custom startup or shutdown script
     # to run
     # command: customCommand
@@ -255,8 +254,8 @@ kafkaSetupJob:
 mysqlSetupJob:
   enabled: false
   image:
-    repository: acryldata/datahub-mysql-setup
-    # tag: "v0.11.0" # defaults to .global.datahub.version
+    repository: opensource/datahub/datahub-mysql-setup
+    tag: "1.5.0-oss"
     # Add custom command / arguments to this job.  Useful if you need a custom startup or shutdown script
     # to run
     # command: customCommand
@@ -299,8 +298,8 @@ mysqlSetupJob:
 postgresqlSetupJob:
   enabled: false
   image:
-    repository: acryldata/datahub-postgres-setup
-    # tag: "v0.11.0" # defaults to .global.datahub.version
+    repository: opensource/datahub/datahub-postgres-setup
+    tag: "1.5.0-oss"
     # Add custom command / arguments to this job.  Useful if you need a custom startup or shutdown script
     # to run
     # command: customCommand
@@ -348,8 +347,8 @@ postgresqlSetupJob:
 datahubUpgrade:
   enabled: false
   image:
-    repository: acryldata/datahub-upgrade
-    # tag: "v0.11.0"  # defaults to .global.datahub.version
+    repository: opensource/datahub/datahub-upgrade
+    tag: "1.5.0-oss"
   batchSize: 1000
   batchDelayMs: 100
   podSecurityContext:
@@ -430,8 +429,8 @@ datahubSystemCronHourly:
   # Custom labels to add to the CronJob metadata
   labels: {}
   image:
-    repository: 795586375822.dkr.ecr.us-west-2.amazonaws.com/datahub-upgrade
-    # tag: "v0.2.0"  # defaults to .global.datahub.version
+    repository: opensource/datahub/datahub-upgrade
+    tag: "1.5.0-oss"
   podSecurityContext:
     fsGroup: 1000
   securityContext:
@@ -516,8 +515,8 @@ datahubSystemUpdate:
       createUser: false         # CREATE_USER_ES env var - create Elasticsearch user
       createUserIamRoleArn: ""  # CREATE_USER_ES_IAM_ROLE_ARN env var - IAM role ARN to map to the user (only if createUser=true)
   image:
-    repository: acryldata/datahub-upgrade
-    # tag:
+    repository: opensource/datahub/datahub-upgrade
+    tag: "1.5.0-oss"
     # Add custom command / arguments to this job.  Useful if you need a custom startup or shutdown script
     # to run
     # command: customCommand
@@ -628,7 +627,7 @@ global:
   graph_service_impl: elasticsearch
   datahub_analytics_enabled: true
   datahub_standalone_consumers_enabled: false
-  imageRegistry: "docker.io"
+  imageRegistry: "registry1.dso.mil/ironbank"
 
   # Base path configuration for serving DataHub behind a proxy
   # When enabled, DataHub services will be accessible under the specified base paths

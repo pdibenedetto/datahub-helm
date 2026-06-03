@@ -7,9 +7,9 @@ replicaCount: 1
 revisionHistoryLimit: 10
 
 image:
-  repository: acryldata/datahub-mce-consumer
+  repository: opensource/datahub/datahub-mce-consumer
   pullPolicy: IfNotPresent
-  tag:
+  tag: "1.5.0-oss"
   # Override the image's command & args with a new one.
   # This may be necessary for custom startup or shutdown behaviors
   command:
@@ -130,7 +130,7 @@ readinessProbe:
   failureThreshold: 4
 
 global:
-  imageRegistry: "docker.io"
+  imageRegistry: "registry1.dso.mil/ironbank"
 
   elasticsearch:
     host: "elasticsearch-master"

@@ -4,7 +4,8 @@
 replicaCount: 1
 
 image:
-  repository: acryldata/datahub-actions
+  repository: opensource/datahub/datahub-actions
+  tag: "1.5.0-oss"
   pullPolicy: IfNotPresent
   # Override the image's command & args with a new one.
   # This may be necessary for custom startup or shutdown behaviors
@@ -102,7 +103,7 @@ debug:
   enabled: false
 
 global:
-  imageRegistry: "docker.io"
+  imageRegistry: "registry1.dso.mil/ironbank"
 
   kafka:
     bootstrap:

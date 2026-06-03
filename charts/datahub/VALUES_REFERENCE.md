@@ -41,7 +41,7 @@ This document provides a comprehensive reference for every single configurable v
 <tr>
 <td><code>global.imageRegistry</code></td>
 <td>string</td>
-<td><code>docker.io</code></td>
+<td><code>registry1.dso.mil/ironbank</code></td>
 <td>Default Docker registry for DataHub container images. Can be overridden for air-gapped environments or private registries.</td>
 </tr>
 </tbody>
@@ -1109,14 +1109,14 @@ This document provides a comprehensive reference for every single configurable v
 <tr>
 <td><code>datahub-gms.image.repository</code></td>
 <td>string</td>
-<td><code>acryldata/datahub-gms</code></td>
+<td><code>opensource/datahub/datahub-gms</code></td>
 <td>Docker image repository for GMS service.</td>
 </tr>
 <tr>
 <td><code>datahub-gms.image.tag</code></td>
 <td>string</td>
-<td><code></code></td>
-<td>Docker image tag for GMS service. Defaults to global.datahub.version if not specified.</td>
+<td><code>1.5.0-oss</code></td>
+<td>Docker image tag for GMS service.</td>
 </tr>
 <tr>
 <td><code>datahub-gms.resources.limits.memory</code></td>
@@ -1298,14 +1298,14 @@ This document provides a comprehensive reference for every single configurable v
 <tr>
 <td><code>datahub-frontend.image.repository</code></td>
 <td>string</td>
-<td><code>acryldata/datahub-frontend-react</code></td>
+<td><code>opensource/datahub/datahub-frontend-react</code></td>
 <td>Docker image repository for frontend service.</td>
 </tr>
 <tr>
 <td><code>datahub-frontend.image.tag</code></td>
 <td>string</td>
-<td><code></code></td>
-<td>Docker image tag for frontend service. Defaults to global.datahub.version if not specified.</td>
+<td><code>1.5.0-oss</code></td>
+<td>Docker image tag for frontend service.</td>
 </tr>
 <tr>
 <td><code>datahub-frontend.resources.limits.memory</code></td>
@@ -1437,14 +1437,14 @@ This document provides a comprehensive reference for every single configurable v
 <tr>
 <td><code>acryl-datahub-actions.image.repository</code></td>
 <td>string</td>
-<td><code>acryldata/datahub-actions</code></td>
+<td><code>opensource/datahub/datahub-actions</code></td>
 <td>Docker image repository for actions service.</td>
 </tr>
 <tr>
 <td><code>acryl-datahub-actions.image.tag</code></td>
 <td>string</td>
-<td><code></code></td>
-<td>Docker image tag for actions service. Defaults to global.datahub.version if not specified.</td>
+<td><code>1.5.0-oss</code></td>
+<td>Docker image tag for actions service.</td>
 </tr>
 <tr>
 <td><code>acryl-datahub-actions.ingestionSecretFiles.name</code></td>
@@ -1494,14 +1494,14 @@ This document provides a comprehensive reference for every single configurable v
 <tr>
 <td><code>datahub-mae-consumer.image.repository</code></td>
 <td>string</td>
-<td><code>acryldata/datahub-mae-consumer</code></td>
+<td><code>opensource/datahub/datahub-mae-consumer</code></td>
 <td>Docker image repository for MAE consumer service.</td>
 </tr>
 <tr>
 <td><code>datahub-mae-consumer.image.tag</code></td>
 <td>string</td>
-<td><code></code></td>
-<td>Docker image tag for MAE consumer service. Defaults to global.datahub.version if not specified.</td>
+<td><code>1.5.0-oss</code></td>
+<td>Docker image tag for MAE consumer service.</td>
 </tr>
 <tr>
 <td><code>datahub-mae-consumer.resources.limits.memory</code></td>
@@ -1539,14 +1539,14 @@ This document provides a comprehensive reference for every single configurable v
 <tr>
 <td><code>datahub-mce-consumer.image.repository</code></td>
 <td>string</td>
-<td><code>acryldata/datahub-mce-consumer</code></td>
+<td><code>opensource/datahub/datahub-mce-consumer</code></td>
 <td>Docker image repository for MCE consumer service.</td>
 </tr>
 <tr>
 <td><code>datahub-mce-consumer.image.tag</code></td>
 <td>string</td>
-<td><code></code></td>
-<td>Docker image tag for MCE consumer service. Defaults to global.datahub.version if not specified.</td>
+<td><code>1.5.0-oss</code></td>
+<td>Docker image tag for MCE consumer service.</td>
 </tr>
 <tr>
 <td><code>datahub-mce-consumer.resources.limits.memory</code></td>
@@ -1590,14 +1590,14 @@ This document provides a comprehensive reference for every single configurable v
 <tr>
 <td><code>datahub-ingestion-cron.image.repository</code></td>
 <td>string</td>
-<td><code>acryldata/datahub-ingestion</code></td>
+<td><code>opensource/datahub/datahub-ingestion</code></td>
 <td>Docker image repository for ingestion cron job.</td>
 </tr>
 <tr>
 <td><code>datahub-ingestion-cron.image.tag</code></td>
 <td>string</td>
-<td><code></code></td>
-<td>Docker image tag for ingestion cron job. Defaults to global.datahub.version if not specified.</td>
+<td><code>1.5.0-oss</code></td>
+<td>Docker image tag for ingestion cron job.</td>
 </tr>
 </tbody>
 </table>
@@ -1625,14 +1625,14 @@ This document provides a comprehensive reference for every single configurable v
 <tr>
 <td><code>elasticsearchSetupJob.image.repository</code></td>
 <td>string</td>
-<td><code>acryldata/datahub-elasticsearch-setup</code></td>
+<td><code>opensource/datahub/datahub-elasticsearch-setup</code></td>
 <td>Docker image repository for Elasticsearch setup job.</td>
 </tr>
 <tr>
 <td><code>elasticsearchSetupJob.image.tag</code></td>
 <td>string</td>
-<td><code></code></td>
-<td>Docker image tag for Elasticsearch setup job. Defaults to global.datahub.version if not specified.</td>
+<td><code>1.5.0-oss</code></td>
+<td>Docker image tag for Elasticsearch setup job.</td>
 </tr>
 <tr>
 <td><code>elasticsearchSetupJob.resources.limits.cpu</code></td>
@@ -1694,14 +1694,14 @@ This document provides a comprehensive reference for every single configurable v
 <tr>
 <td><code>kafkaSetupJob.image.repository</code></td>
 <td>string</td>
-<td><code>acryldata/datahub-kafka-setup</code></td>
+<td><code>opensource/datahub/datahub-kafka-setup</code></td>
 <td>Docker image repository for Kafka setup job.</td>
 </tr>
 <tr>
 <td><code>kafkaSetupJob.image.tag</code></td>
 <td>string</td>
-<td><code></code></td>
-<td>Docker image tag for Kafka setup job. Defaults to global.datahub.version if not specified.</td>
+<td><code>1.5.0-oss</code></td>
+<td>Docker image tag for Kafka setup job.</td>
 </tr>
 <tr>
 <td><code>kafkaSetupJob.resources.limits.cpu</code></td>
@@ -1757,14 +1757,14 @@ This document provides a comprehensive reference for every single configurable v
 <tr>
 <td><code>mysqlSetupJob.image.repository</code></td>
 <td>string</td>
-<td><code>acryldata/datahub-mysql-setup</code></td>
+<td><code>opensource/datahub/datahub-mysql-setup</code></td>
 <td>Docker image repository for MySQL setup job.</td>
 </tr>
 <tr>
 <td><code>mysqlSetupJob.image.tag</code></td>
 <td>string</td>
-<td><code></code></td>
-<td>Docker image tag for MySQL setup job. Defaults to global.datahub.version if not specified.</td>
+<td><code>1.5.0-oss</code></td>
+<td>Docker image tag for MySQL setup job.</td>
 </tr>
 <tr>
 <td><code>mysqlSetupJob.resources.limits.cpu</code></td>
@@ -1838,14 +1838,14 @@ This document provides a comprehensive reference for every single configurable v
 <tr>
 <td><code>postgresqlSetupJob.image.repository</code></td>
 <td>string</td>
-<td><code>acryldata/datahub-postgres-setup</code></td>
+<td><code>opensource/datahub/datahub-postgres-setup</code></td>
 <td>Docker image repository for PostgreSQL setup job.</td>
 </tr>
 <tr>
 <td><code>postgresqlSetupJob.image.tag</code></td>
 <td>string</td>
-<td><code></code></td>
-<td>Docker image tag for PostgreSQL setup job. Defaults to global.datahub.version if not specified.</td>
+<td><code>1.5.0-oss</code></td>
+<td>Docker image tag for PostgreSQL setup job.</td>
 </tr>
 <tr>
 <td><code>postgresqlSetupJob.resources.limits.cpu</code></td>
@@ -1925,14 +1925,14 @@ This document provides a comprehensive reference for every single configurable v
 <tr>
 <td><code>datahubUpgrade.image.repository</code></td>
 <td>string</td>
-<td><code>acryldata/datahub-upgrade</code></td>
+<td><code>opensource/datahub/datahub-upgrade</code></td>
 <td>Docker image repository for upgrade job.</td>
 </tr>
 <tr>
 <td><code>datahubUpgrade.image.tag</code></td>
 <td>string</td>
-<td><code></code></td>
-<td>Docker image tag for upgrade job. Defaults to global.datahub.version if not specified.</td>
+<td><code>1.5.0-oss</code></td>
+<td>Docker image tag for upgrade job.</td>
 </tr>
 <tr>
 <td><code>datahubUpgrade.batchSize</code></td>
@@ -2068,14 +2068,14 @@ System-update scale-down options and operator ServiceAccount/RBAC are available 
 <tr>
 <td><code>datahubSystemUpdate.image.repository</code></td>
 <td>string</td>
-<td><code>acryldata/datahub-upgrade</code></td>
+<td><code>opensource/datahub/datahub-upgrade</code></td>
 <td>Docker image repository for system update job.</td>
 </tr>
 <tr>
 <td><code>datahubSystemUpdate.image.tag</code></td>
 <td>string</td>
-<td><code></code></td>
-<td>Docker image tag for system update job. Defaults to global.datahub.version if not specified.</td>
+<td><code>1.5.0-oss</code></td>
+<td>Docker image tag for system update job.</td>
 </tr>
 <tr>
 <td><code>datahubSystemUpdate.nonblocking.enabled</code></td>
@@ -2355,14 +2355,14 @@ The **system-update** Job passes `sqlConnTpl=datahub.sql.connection.env.systemUp
 <tr>
 <td><code>datahubSystemCronHourly.image.repository</code></td>
 <td>string</td>
-<td><code>795586375822.dkr.ecr.us-west-2.amazonaws.com/datahub-upgrade</code></td>
+<td><code>opensource/datahub/datahub-upgrade</code></td>
 <td>Docker image repository for hourly cron job.</td>
 </tr>
 <tr>
 <td><code>datahubSystemCronHourly.image.tag</code></td>
 <td>string</td>
-<td><code></code></td>
-<td>Docker image tag for hourly cron job. Defaults to global.datahub.version if not specified.</td>
+<td><code>1.5.0-oss</code></td>
+<td>Docker image tag for hourly cron job.</td>
 </tr>
 <tr>
 <td><code>datahubSystemCronHourly.jvmOpts.XX</code></td>

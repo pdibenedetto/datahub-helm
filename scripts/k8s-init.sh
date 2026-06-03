@@ -10,6 +10,14 @@ kubectl create secret docker-registry dockerhub \
   --docker-email="$DOCKERHUB_EMAIL" \
   -n datahub
 
+kubectl create secret docker-registry ironbank-pull-secret \
+  --docker-server=registry1.dso.mil \
+  --docker-username="$REGISTRY1_USERNAME" \
+  --docker-password="$REGISTRY1_PASSWORD" \
+  --docker-email="$REGISTRY1_EMAIL" \
+  -n datahub
+
+
 kubectl create secret generic postgresql-secrets \
     --from-literal=postgres-password=datahub \
     --from-literal=password=datahub \

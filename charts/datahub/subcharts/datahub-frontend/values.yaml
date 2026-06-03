@@ -28,8 +28,8 @@ hpa:
 revisionHistoryLimit: 10
 
 image:
-  repository: acryldata/datahub-frontend-react
-  tag:
+  repository: opensource/datahub/datahub-frontend-react
+  tag: "1.5.0-oss"
   pullPolicy: IfNotPresent
   # Override the image's command & args with a new one.
   # This may be necessary for custom startup or shutdown behaviors
@@ -237,7 +237,7 @@ datahub:
       buffer:
         size: "10MB"
 global:
-  imageRegistry: "docker.io"
+  imageRegistry: "registry1.dso.mil/ironbank"
 
   datahub_analytics_enabled: true
 

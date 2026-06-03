@@ -11,7 +11,7 @@ metadata:
     {{- include "datahub.labels" . | nindent 4 }}
 spec:
   suspend: {{ .Values.global.readonly }}
-  {{- include "datahub.upgrade.dailyCronWindow" . | nindent 2}}
+  {{- include "datahub.systemUpdate.datahubGC.dailyCronWindow" . | nindent 2}}
   jobTemplate:
     metadata:
       labels:
@@ -65,7 +65,7 @@ spec:
           {{- end }}
           containers:
             - name: datahub-system-update-cron-hourly-job
-              image: "{{ .Values.datahubSystemCronHourly.image.repository }}:{{ required "Global or specific tag is required" (.Values.datahubSystemCronHourly.image.tag | default .Values.global.datahub.version) }}"
+              image: {{ include "datahub.image" (dict "imageRegistry" .Values.global.imageRegistry "version" .Values.global.datahub.version "image" .Values.datahubSystemCronHourly.image) }}
               {{- if .Values.global.pullAlways }}
               imagePullPolicy: Always
               {{- else }}
@@ -101,8 +101,8 @@ spec:
                 {{- toYaml . | nindent 16 }}
               {{- end }}
               resources:
-                {{- toYaml .Values.datahubSystemCronHourly.restoreIndices.resources | nindent 16}}
-            {{- with .Values.datahubSystemCronHourly.restoreIndices.extraSidecars }}
+                {{- toYaml .Values.datahubSystemCronHourly.resources | nindent 16}}
+            {{- with .Values.datahubSystemCronHourly.extraSidecars }}
               {{- toYaml . | nindent 12 }}
             {{- end }}
           {{- with .Values.datahubSystemCronHourly.nodeSelector }}

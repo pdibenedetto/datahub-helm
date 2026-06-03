@@ -16,9 +16,9 @@ hpa:
 revisionHistoryLimit: 10
 
 image:
-  repository: acryldata/datahub-gms
+  repository: opensource/datahub/datahub-gms
   pullPolicy: IfNotPresent
-  tag:
+  tag: "1.5.0-oss"
   # Override the image's command & args with a new one.
   # This may be necessary for custom startup or shutdown behaviors
   command:
@@ -184,7 +184,7 @@ lifecycle:
 #This section is useful if we are installing this chart separately for testing
 # helm install datahub-gms datahub-gms/
 global:
-  imageRegistry: "docker.io"
+  imageRegistry: "registry1.dso.mil/ironbank"
 
   datahub_analytics_enabled: true
   graph_service_impl: elasticsearch

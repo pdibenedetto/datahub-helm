@@ -43,26 +43,35 @@ separately on-prem or leveraged as managed services.
 Assuming kubectl context points to the correct kubernetes cluster, first create kubernetes secrets that contain MySQL and Neo4j passwords. 
 
 ```(shell)
-kubectl -n datahub create secret docker-registry dockerhub \
+kubectl create secret docker-registry dockerhub \
   --docker-server=https://index.docker.io/v1/ \
   --docker-username="$DOCKERHUB_USERNAME" \
   --docker-password="$DOCKERHUB_TOKEN" \
-  --docker-email="$DOCKERHUB_EMAIL"
+  --docker-email="$DOCKERHUB_EMAIL" \
+  -n datahub
   
-kubectl create secret generic mysql-secrets 
-    -n datahub
+kubectl create secret docker-registry ironbank-pull-secret \
+  --docker-server=registry1.dso.mil \
+  --docker-username="$REGISTRY1_USERNAME" \
+  --docker-password="$REGISTRY1_PASSWORD" \
+  --docker-email="$REGISTRY1_EMAIL"
+  -n datahub
+  
+kubectl create secret generic mysql-secrets     
     --from-literal=mysql-root-password=datahub 
     --from-literal=mysql-password=datahub
+    -n datahub
     
 kubectl create secret generic postgresql-secrets \
     --from-literal=postgres-password=datahub \
     --from-literal=password=datahub \
     --from-literal=replication-password=datahub
+    -n datahub
     
 kubectl create secret generic neo4j-secrets 
-    -n datahub
     --from-literal=neo4j-password=datahub 
     --from-literal=NEO4J_AUTH=neo4j/datahub
+    -n datahub
 ```
 
 The above commands sets the passwords to "datahub" as an example. Change to any password of choice. 
