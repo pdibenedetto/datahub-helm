@@ -1,11 +1,15 @@
 # Default configuration for pre-requisites to get you started
-# Copy this file and update to the configuration of choice
+# Copy this file and update to the configuration of choicehel
 elasticsearch:
   # set this to false when using OpenSearch instead
   enabled: true
+  image: registry1.dso.mil/ironbank/elastic/elasticsearch/elasticsearch
+  imageTag: 7.17.29
+  imagePullSecrets:
+    - name: ironbank-pull-secret
 
   # If you're running in production, set this to 3 and comment out antiAffinity below
-  # Or alternatively if you're running production, bring your own ElasticSearch
+  # Or alternatively, if you're running production, bring your own ElasticSearch
   replicas: 1
   minimumMasterNodes: 1
   # Set replicas to 1 and uncomment this to allow the instance to be scheduled on
@@ -39,12 +43,12 @@ opensearch:
   enabled: false
 
   # If you're running in production, set this to false, replicas to 3 and uncomment antiAffinity below
-  # Or alternatively if you're running production, bring your own OpenSearch
+  # Or alternatively, if you're running production, bring your own OpenSearch
   singleNode: true
   # replicas: 3
   # antiAffinity: "hard"
 
-  # By default security is enabled for OpenSearch, disable it here.
+  # By default, security is enabled for OpenSearch, disable it here.
   config:
     opensearch.yml: |
       plugins:
@@ -126,7 +130,7 @@ mysql:
     existingSecret: mysql-secrets
   primary:
     extraFlags: "--character-set-server=utf8mb4 --collation-server=utf8mb4_bin"
-    # Avoid OOMKilled on resource-constrained clusters (e.g. Docker Desktop)
+    # Avoid OOMKilled on resource-constrained clusters (e.g., Docker Desktop)
     resources:
       requests:
         memory: "512Mi"
@@ -138,9 +142,9 @@ mysql:
 postgresql:
   enabled: true
   image:
-    registry: docker.io
-    repository: bitnami/postgresql
-    tag: latest
+    registry: registry1.dso.mil/ironbank
+    repository: bitnami/postgres
+    tag: 17.4.0
 #    tag: sha256-7651d7f24aad83fe68a222f7f20eded10d325c96ebee285ca5bf8162eddcba64
   auth:
     # For better security, add postgresql-secrets k8s secret with postgres-password, replication-password and password
@@ -198,11 +202,16 @@ cp-helm-charts:
     enabled: false
 
 # Bitnami version of Kafka that deploys open source Kafka https://artifacthub.io/packages/helm/bitnami/kafka
-# Default: single-pod KRaft (no Zookeeper). Prerequisites chart adds Service release-name-kafka for backwards-compatible bootstrap.
+# Default: single-pod KRaft (no Zookeeper). Prerequisite chart adds Service release-name-kafka for backwards-compatible bootstrap.
 kafka:
   enabled: true
   image:
-    repository: bitnamilegacy/kafka
+    registry: registry1.dso.mil/ironbank
+    repository: bitnami/kafka
+    # digest: sha256:51a9169976bdb3470c56858a4bf456ce1e0c4600cca22f2eec2db4e219a658b3
+    tag: 4.0.0
+    pullSecrets:
+      - ironbank-pull-secret
   listeners:
     client:
       protocol: PLAINTEXT

@@ -1,5 +1,5 @@
 # Values to start up datahub after starting up the datahub-prerequisites chart with "prerequisites" release name
-# Copy this chart and change configuration as needed.
+# Copy this chart and change the configuration as needed.
 # JMX/actuator metrics layout is controlled only by global.datahub.monitoring.metricsMode (see global.datahub below).
 datahub-gms:
   enabled: true
@@ -12,25 +12,26 @@ datahub-gms:
     # args: []
   resources:
     limits:
-      memory: 2Gi
+      cpu: 500m
+      memory: 3Gi
     requests:
       cpu: 100m
-      memory: 1Gi
+      memory: 2Gi
   livenessProbe:
-    initialDelaySeconds: 60
+    initialDelaySeconds: 180
     periodSeconds: 30
-    failureThreshold: 8
+    failureThreshold: 12
   readinessProbe:
-    initialDelaySeconds: 120
+    initialDelaySeconds: 180
     periodSeconds: 30
-    failureThreshold: 8
+    failureThreshold: 12
   theme_v2:
     enabled: true
     default: true
     toggeable: true
   serviceAccount:
     create: false
-  # Optionaly specify service type for datahub-gms: LoadBalancer, ClusterIP or NodePort, by default: LoadBalancer
+  # Optionally specify a service type for datahub-gms: LoadBalancer, ClusterIP or NodePort, by default: LoadBalancer
   # service:
   #   type: ClusterIP
   # Load balancer class for datahub-gms. Used by cloud providers to select a load balancer implementation other than the cloud provider default.
@@ -75,10 +76,11 @@ datahub-frontend:
     # args: []
   resources:
     limits:
+      cpu: 250m
       memory: 1400Mi
     requests:
       cpu: 100m
-      memory: 512Mi
+      memory: 1400Mi
   # Set up ingress to expose react front-end
   ingress:
     enabled: false
@@ -122,10 +124,11 @@ acryl-datahub-actions:
   #   defaultMode: "0444"
   resources:
     limits:
+      cpu: 300m
       memory: 512Mi
     requests:
       cpu: 300m
-      memory: 256Mi
+      memory: 512Mi
   serviceAccount:
     create: false
 
@@ -168,6 +171,13 @@ datahub-ingestion-cron:
   image:
     repository: opensource/datahub/datahub-ingestion
     tag: "1.5.0-oss"
+  resources:
+    limits:
+      cpu: 300m
+      memory: 512Mi
+    requests:
+      cpu: 300m
+      memory: 512Mi
 
 elasticsearchSetupJob:
   enabled: false
@@ -295,6 +305,7 @@ mysqlSetupJob:
     #   image: my-image
     #   imagePullPolicy: Always
 
+# TODO: Is this needed
 postgresqlSetupJob:
   enabled: false
   image:
@@ -328,7 +339,7 @@ postgresqlSetupJob:
     helm.sh/hook-weight: "-5"
     helm.sh/hook-delete-policy: before-hook-creation
   podAnnotations: {}
-  # Optionally set a set-up job specific login (defaults to global login)
+  # Optionally set a set-up job-specific login (defaults to global login)
   # username: "postgresqlSetupJob-login"
   # password:
   #   secretRef: postgresqlSetupJob-secret
@@ -347,7 +358,7 @@ postgresqlSetupJob:
 datahubUpgrade:
   enabled: false
   image:
-    repository: opensource/datahub/datahub-upgrade
+    repository: registry1.dso.mil/ironbank/opensource/datahub/datahub-upgrade
     tag: "1.5.0-oss"
   batchSize: 1000
   batchDelayMs: 100
@@ -389,7 +400,7 @@ datahubUpgrade:
       lastUrn:
       # Used in conjunction with urnBasedPagination and lastUrn, resume from a particular urn for a particular aspect to avoid reprocessing certain aspects
       lastAspect:
-      # Uses a key based paging strategy when scrolling through SQL rows instead of offset. Often faster for large sets of data
+      # Uses a key-based paging strategy when scrolling through SQL rows instead of offset. Often faster for large sets of data
       urnBasedPagination:
       # Only restore for certain aspects, comma separated list
       aspectNames:
@@ -490,7 +501,7 @@ datahubSystemUpdate:
     #   value: "override-password"
     #   secretRef: "override-secret-name"
     #   secretKey: "override-secret-key"
-    # SQL setup within system-update job (replaces legacy mysqlSetupJob/postgresqlSetupJob when IAM is enabled)
+    # SQL setup within a system-update job (replaces legacy mysqlSetupJob/postgresqlSetupJob when IAM is enabled)
     setup:
       enabled: true            # Enable SQL database setup
       createTables: true        # Create DataHub tables
@@ -629,6 +640,7 @@ global:
   datahub_standalone_consumers_enabled: false
   imageRegistry: "registry1.dso.mil/ironbank"
 
+
   # Base path configuration for serving DataHub behind a proxy
   # When enabled, DataHub services will be accessible under the specified base paths
   # This allows hosting DataHub under a subpath like /datahub instead of root /
@@ -695,7 +707,7 @@ global:
     # Use host: "elasticsearch-master" when using prerequisites with Elasticsearch enabled instead.
     host: "elasticsearch-master"
     port: "9200"
-    # ES client thread count is per workload: set <subchart>.elasticsearch.threadCount (e.g. datahub-gms,
+    # ES client thread count is per workload: set <subchart>.elasticsearch.threadCount (e.g., datahub-gms,
     # datahub-mae-consumer, datahub-mce-consumer) or datahubSystemUpdate.elasticsearch.threadCount for upgrade jobs.
     # There is no global.elasticsearch.threadCount. When unset, ELASTICSEARCH_THREAD_COUNT is omitted (application default).
     skipcheck: "false"
@@ -772,7 +784,7 @@ global:
         ## orignal index and the new index's mappings. This document could be dropped and re-ingested or restored from
         ## the SQL database.
         ##
-        ## This setting allows continuing if and only if the cloneIndices setting is also enabled which
+        ## This setting allows continuing if and only if the cloneIndices setting is also enabled, which
         ## ensures a complete backup of the original index is preserved.
         allowDocCountMismatch: false
 
@@ -879,9 +891,9 @@ global:
     bootstrap:
       server: "prerequisites-kafka:9092"
 
-    # This is no longer used with  datahub version 1.3.0 and later where datahub system update performs the kafka setup
+    # This is no longer used with datahub version 1.3.0 and later where datahub system update performs the kafka setup
     # operations if configured. This is retained for legacy reasons for datahub versions before 1.3.0 that still need
-    # kafkaSetupJob.enabled = true (current default is kafkaSetupJob.enabled = false)
+    # kafkaSetupJob.enabled = true (the current default is kafkaSetupJob.enabled = false)
 
     # NOTE: Zookeeper is no longer used with Kafka 3.3 and later.
     # zookeeper:
@@ -961,8 +973,8 @@ global:
       #   region: us-east-1
       #   registry: datahub
 
-      # Optional override on whether to configure schema registry clean up policy.
-      # When schema registry type is set to INTERNAL, AWS_GLUE, the configureCleanupPolicy is always set to false.
+      # Optional override on whether to configure schema registry cleanup policy.
+      # When the schema registry type is set to INTERNAL, AWS_GLUE, the configureCleanupPolicy is always set to false.
       # This is used *only* if schemaregistry.type is set to KAFKA *and* datahub can create/configure
       # topics (precreateTopics: true).
       # When using a schema registry that datahub cannot configure, explicitly set this flag to false.
@@ -974,7 +986,7 @@ global:
     iam:
       enabled: false  # Sets SPRING_KAFKA_PROPERTIES_SASL_* environment variables for Java services
                       # and KAFKA_PROPERTIES_* environment variables for Python services
-      awsRegion: ""   # AWS region where MSK cluster is located, e.g. "us-west-2"
+      awsRegion: ""   # AWS region where the MSK cluster is located, e.g. "us-west-2"
 
   springKafkaConfigurationOverrides:
     partition.assignment.strategy: "org.apache.kafka.clients.consumer.CooperativeStickyAssignor"
@@ -1016,16 +1028,6 @@ global:
       password:
         secretRef: postgresql-secrets
         secretKey: postgres-password
-      # host: "prerequisites-postgresql:5432"
-      # hostForpostgresqlClient: "prerequisites-postgresql"
-      # port: "5432"
-      # url: "jdbc:postgresql://prerequisites-postgresql:5432/datahub"
-      # driver: "org.postgresql.Driver"
-      # database: "datahub"
-      # username: "postgres"
-      # password:
-      #   secretRef: postgresql-secrets
-      #   secretKey: postgres-password
       # --------------OR----------------
       #   value: password
 
@@ -1101,7 +1103,7 @@ global:
     appVersion: "1.5.0"
     systemUpdate:
       ## The following options control settings for datahub-upgrade job which will
-      ## managed ES indices and other update related work
+      ## manage ES indices and other update-related work
       enabled: true
       # When true: skip legacy elasticsearch/kafka/mysql/postgresql SetupJob hooks; run SQL and Elasticsearch
       # setup via the system-update job (see datahubSystemUpdate.sql / elasticsearch). Legacy hooks stay off
@@ -1112,7 +1114,7 @@ global:
       scaleDown:
         enabled: true
       # Zero Downtime Upgrade (ZDU) group flags — each stage enables a set of individual feature flags.
-      # Individual flags can still be overridden separately (e.g. via global.elasticsearch.index.upgrade).
+      # Individual flags can still be overridden separately (e.g., via global.elasticsearch.index.upgrade).
       zdu:
         # ZDU_STAGE_10: group flag for pre-enablement stage.
         # Enables: CREATE_SCHEMA_VERSION_INDEX (schema version index on metadata_aspect_v2)
